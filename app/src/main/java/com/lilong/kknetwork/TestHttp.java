@@ -50,9 +50,9 @@ public class TestHttp extends Activity implements CarService.OnSpeedChangeListen
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                requestRx();
-                Intent intent = new Intent(TestHttp.this, CarService.class);
-                startService(intent);
+                requestRx();
+//                Intent intent = new Intent(TestHttp.this, CarService.class);
+//                startService(intent);
             }
         });
     }

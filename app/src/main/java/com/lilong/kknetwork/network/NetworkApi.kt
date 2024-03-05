@@ -38,8 +38,17 @@ val apiService: ApiService by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
 }
 
 //双重校验锁式-单例 封装NetApiService 方便直接快速调用简单的接口
+val apiService1: ApiService by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+    NetworkApi.INSTANCE.getApi(ApiService::class.java, ApiService.SERVER_URL1)
+}
+
+//双重校验锁式-单例 封装NetApiService 方便直接快速调用简单的接口
 val apiServiceRx: ApiServiceRx by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-    NetworkApi.INSTANCE.getApi(ApiServiceRx::class.java, ApiService.SERVER_URL)
+    NetworkApi.INSTANCE.getApi(ApiServiceRx::class.java, ApiServiceRx.SERVER_URL)
+}
+
+val apiServiceRx1: ApiServiceRx by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+    NetworkApi.INSTANCE.getApi(ApiServiceRx::class.java, ApiServiceRx.SERVER_URL1)
 }
 
 
