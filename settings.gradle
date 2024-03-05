@@ -1,0 +1,29 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter() // JCenter已停止服务，但部分历史库仍可访问
+        gradlePluginPortal()
+    }
+
+
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        //阿里云jcenter仓库
+        maven { url = uri("https://maven.aliyun.com/repository/jcenter") }
+        maven {
+            url = uri("https://jitpack.io")
+        }
+        //添加libs包依赖
+        flatDir {
+            dirs("libs")
+        }
+    }
+}
+rootProject.name = "KKNetwork"
+include ':app'
+include ':network'
