@@ -18,23 +18,31 @@ import java.util.Random;
 
 public class CarService extends Service {
 
+    MyBinder binder = new MyBinder(this);
+    private volatile OnSpeedChangeListener listener;
+
+    public void setOnSpeedChangeListener(OnSpeedChangeListener listener) {
+        Log.d("TAG", "listene1111r====: "+listener);
+        this.listener = listener;
+    }
+
 
     @Override
     public void onCreate() {
         super.onCreate();
-
+        Log.d("TAG", "listene22222====: "+listener);
+        getSpeedData();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        getSpeedData();
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return binder ;
     }
 
     public interface OnSpeedChangeListener{
@@ -49,11 +57,12 @@ public class CarService extends Service {
                 while (true) {
                     Random random = new Random();
                     int speed = random.nextInt(100) + 1;
-                    Message message = new Message();
-                    message.obj = speed;
-                    mHandler.sendMessage(message);
+                    Log.d("TAG", "listene3333====: "+listener);
                     // 创建并发布事件
-                    EventBus.getDefault().post(speed);
+//                    EventBus.getDefault().post(speed);
+                    if(listener!=null){
+                        listener.onSpeedChange(speed);
+                    }
                     try {
                         Thread.sleep(1000); // Update speed every second
                     } catch (InterruptedException e) {

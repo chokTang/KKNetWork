@@ -1,9 +1,13 @@
 package com.lilong.kknetwork;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
@@ -26,6 +30,7 @@ import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -50,12 +55,40 @@ public class TestHttp extends Activity implements CarService.OnSpeedChangeListen
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                requestRx();
-//                Intent intent = new Intent(TestHttp.this, CarService.class);
+//                requestRx();
+                Intent intent = new Intent(TestHttp.this, CarService.class);
+                bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 //                startService(intent);
             }
         });
     }
+
+    CarService mDownloadService;
+    private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder binder) {
+            MyBinder myBinder = (MyBinder) binder;
+            mDownloadService = myBinder.getmService();
+            mDownloadService.setOnSpeedChangeListener(new CarService.OnSpeedChangeListener() {
+                @Override
+                public void onSpeedChange(int speed) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            textView.setText(String.valueOf(speed));
+                        }
+                    });
+                }
+            });
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
+
 
 
 
