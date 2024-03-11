@@ -50,7 +50,7 @@ dependencies {
     //evenbuS
     implementation 'org.greenrobot:eventbus:3.0.0'
 
-//    implementation project(':network')
-    implementation files('libs/network-debug.aar')
+    implementation project(':network')
+//    implementation files('libs/network-debug.aar')
 
 }
